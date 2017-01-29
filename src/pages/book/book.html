@@ -6,7 +6,10 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>book</ion-title>
   </ion-navbar>
 
@@ -14,5 +17,7 @@
 
 
 <ion-content padding>
-
+Title: {{ title }}
+<br>
+Name: {{ name }}
 </ion-content>
