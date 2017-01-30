@@ -8,7 +8,14 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content padding>
-  <button ion-button color="primary" (click)="gotoBook()">Go to Book</button>
+  <button ion-button color="primary" (click)="gotoBook()">Go to Book</button><br/>
+  <div *ngFor="let p of Personal">
+    ID : {{ p?.id }}  Name : {{p?.name}} 
+    Age: {{ p?.age }} 
+    Email: {{ p?.email }}  
+    Tel: {{ p?.tel }} 
+    Price: {{ p?.price | number:'.2'}}
+    date: {{p?.date | datePipe}} 
+  </div>
 </ion-content>
