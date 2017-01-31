@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController,LoadingController,ToastController} from 'ionic-angular'
 import {BookPage} from '../book/book';
+import {DetailPage} from '../detail/detail';
 import {Book} from '../../providers/book';
 
 
@@ -16,34 +17,48 @@ export class HomePage {
   };
 
   Personal: Object;
+  loadingObj:any;
 
   constructor(
     public navCtrl: NavController, 
     private book: Book, 
     private loadingCtrl: LoadingController, 
     private toastCtrl: ToastController) {
-    //this.loading();
-    this.toastloading();
+    this.loading();
     this.book.CallBookTwoHttp().subscribe((data) => {
       this.Personal = data;
+      this.loadingObj.dismiss();
+      this.toastloading();
     });
   }
 
   loading(){
-    let loading = this.loadingCtrl.create({
+    this.loadingObj = this.loadingCtrl.create({
       content: 'loading...',
-      duration: 3000,
     });
-    loading.present();
+    this.loadingObj.present();
+    
   }
 
   toastloading(){
     let loading = this.toastCtrl.create({
-      message: 'loading...',
-      duration: 3000,
+      message: 'Load Success',
+      duration: 6000,
       position:'top'
     });
     loading.present();
+  }
+
+  gotoDetil(p) {
+    let data = {
+      id: p.id,
+      name: p.name,
+      detail:p.detail,
+      created:p.created,
+      photo:p.photo
+    }
+    this.navCtrl.push(DetailPage, data);
+  
   }
 
   gotoBook() {

@@ -3,6 +3,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { BookPage } from '../pages/book/book';
+import { DetailPage } from '../pages/detail/detail';
 import {DatePipe } from '../pipes/DatePipe'
 import {Book} from '../components/book/book'
 
@@ -11,6 +12,7 @@ import {Book} from '../components/book/book'
     MyApp,
     HomePage,
     BookPage,
+    DetailPage,
     DatePipe,
     Book
   ],
@@ -21,7 +23,8 @@ import {Book} from '../components/book/book'
   entryComponents: [
     MyApp,
     HomePage,
-    BookPage
+    BookPage,
+    DetailPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

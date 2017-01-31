@@ -9,7 +9,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <!--<ion-card *ngFor="let p of Personal">
+  <ion-card *ngFor="let p of Personal" (click)="gotoDetil(p)">
       <ion-item>
         <ion-avatar item-left>
           <img [src]="p?.photo" />
@@ -31,13 +31,13 @@
         Created : {{p?.created}}
       </ion-card-content>
       
-    </ion-card>-->
-  <ion-slides pager>
+    </ion-card>
+  <!--<ion-slides pager>
     <ion-slide *ngFor="let p of Personal">
       <img [src]="p?.photo" />
     </ion-slide>
   </ion-slides>
   <ion-infinite-scroll>
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  </ion-infinite-scroll>-->
 </ion-content>
