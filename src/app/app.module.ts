@@ -4,13 +4,15 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { BookPage } from '../pages/book/book';
 import {DatePipe } from '../pipes/DatePipe'
+import {Book} from '../components/book/book'
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     BookPage,
-    DatePipe
+    DatePipe,
+    Book
   ],
   imports: [
     IonicModule.forRoot(MyApp)
