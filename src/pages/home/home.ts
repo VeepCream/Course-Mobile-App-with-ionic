@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular'
+import {NavController,LoadingController,ToastController} from 'ionic-angular'
 import {BookPage} from '../book/book';
 import {Book} from '../../providers/book';
 
@@ -17,8 +17,33 @@ export class HomePage {
 
   Personal: Object;
 
-  constructor(public navCtrl: NavController, private book: Book) {
+  constructor(
+    public navCtrl: NavController, 
+    private book: Book, 
+    private loadingCtrl: LoadingController, 
+    private toastCtrl: ToastController) {
+    //this.loading();
+    this.toastloading();
+    this.book.CallBookTwoHttp().subscribe((data) => {
+      this.Personal = data;
+    });
+  }
 
+  loading(){
+    let loading = this.loadingCtrl.create({
+      content: 'loading...',
+      duration: 3000,
+    });
+    loading.present();
+  }
+
+  toastloading(){
+    let loading = this.toastCtrl.create({
+      message: 'loading...',
+      duration: 3000,
+      position:'top'
+    });
+    loading.present();
   }
 
   gotoBook() {

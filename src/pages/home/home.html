@@ -8,15 +8,36 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content padding>
-  <button ion-button color="primary" (click)="gotoBook()">Go to Book</button><br/>
-  <div [hidden]="Personal == null">
-  ID : {{Personal?.id}} <br/>
-  Name : {{Personal?.name}} <br/>
-  Age: {{Personal?.age}} <br/>
-  Email:  {{Personal?.email}} <br/>
-  Tel:  {{Personal?.tel}} <br/>
-  </div>
-  <button book>Go to Book</button><br/>
+  <!--<ion-card *ngFor="let p of Personal">
+      <ion-item>
+        <ion-avatar item-left>
+          <img [src]="p?.photo" />
+        </ion-avatar>
+        <h2>{{p?.name}}</h2>
+        <p>{{p?.created}}</p>
+      </ion-item>
+      <img [src]="p?.photo" />
+      <ion-card-header>
+        Name : {{p?.name}}
+      </ion-card-header>
+      <ion-card-content>
+        Id : {{p?.id}}
+      </ion-card-content>
+      <ion-card-content>
+        Detail : {{p?.detail}}
+      </ion-card-content>
+      <ion-card-content>
+        Created : {{p?.created}}
+      </ion-card-content>
+      
+    </ion-card>-->
+  <ion-slides pager>
+    <ion-slide *ngFor="let p of Personal">
+      <img [src]="p?.photo" />
+    </ion-slide>
+  </ion-slides>
+  <ion-infinite-scroll>
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

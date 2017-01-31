@@ -26,5 +26,8 @@ export class Book {
   CallBookHttp(){
     return this.http.get('http://localhost/angular2-service/angular2-Server.php').map((res) => res.json());
   }
+  CallBookTwoHttp(){
+    return this.http.get('http://thinnydev.com/Angular2-Service/Book.php').map((res) => res.json());
+  }
 
 }
