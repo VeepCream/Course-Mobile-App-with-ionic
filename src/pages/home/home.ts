@@ -35,6 +35,7 @@ export class HomePage {
 
   Personal: Object;
   loadingObj: any;
+  Books: any;
 
   constructor(
     public navCtrl: NavController,
@@ -45,7 +46,8 @@ export class HomePage {
     private alertCtrl:AlertController) {
     //this.loading();
     this.book.CallBookTwoHttp().subscribe((data) => {
-      this.Personal = data;
+      //this.Personal = data;
+      this.Books =data;
       //this.loadingObj.dismiss();
       //this.toastloading();
     });
@@ -122,5 +124,40 @@ export class HomePage {
       }]
     });
     alert.present();
+  }
+  createModelDeteil(index){
+    let params ={
+      id:this.Books[index].id,
+      name: this.Books[index].name,
+      detail:this.Books[index].detail,
+      created:this.Books[index].created,
+      photo:this.Books[index].photo
+    }
+    let myModel = this.model.create(DetailPage,params);
+    myModel.present();
+  }
+
+  confirmRemoveItemAlert(index,item){
+    let alert = this.alertCtrl.create({
+      title:'Alert Delete Item',
+      subTitle: 'Are you sure you want to delete this item?',
+      buttons:[{
+        text:'Cancel',
+        role:'cancel',
+        handler :() =>{
+
+        }
+      },
+      {
+        text:'Confirm',
+        handler :() =>{
+          this.removeItem(index,item)
+        }
+      }]
+    });
+    alert.present();
+  }
+  removeItem(index,item){
+    this.Books.splice(index,1);
   }
 }

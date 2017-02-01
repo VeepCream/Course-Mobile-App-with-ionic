@@ -70,9 +70,28 @@
       </div>
     </ion-card>
   </ion-card-content>-->
-  <button ion-button color="accent" (click)="createModel()">opemModel</button>
+  <!--<button ion-button color="accent" (click)="createModel()">opemModel</button>
   <button ion-button color="danger" (click)="openAlert()">opem Alert</button>
   <ion-infinite-scroll>
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  </ion-infinite-scroll>-->
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let book of Books; let i =index;">
+      <ion-item>
+        <ion-avatar item-left>
+          <img [src]="book.photo">
+        </ion-avatar>
+        {{ book.name }}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button>
+          <ion-icon name="eye" (click)="createModelDeteil(i)"> View </ion-icon>
+        </button>
+        <button ion-button>
+          <ion-icon name="trash" (click)="confirmRemoveItemAlert(i,book)"> Del </ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>

@@ -3,7 +3,8 @@ import {
 } from '@angular/core';
 import {
   NavController,
-  NavParams
+  NavParams,
+  ViewController
 } from 'ionic-angular';
 
 /*
@@ -23,7 +24,7 @@ export class DetailPage {
   created: string;
   photo: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController) {
     this.id = this.navParams.get("id");
     this.name = this.navParams.get("name");
     this.detail = this.navParams.get("detail");
@@ -33,6 +34,10 @@ export class DetailPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
+  }
+
+  closeModal(){
+    this.viewCtrl.dismiss();
   }
 
 }
