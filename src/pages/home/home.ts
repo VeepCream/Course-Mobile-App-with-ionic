@@ -1,8 +1,25 @@
-import {Component} from '@angular/core';
-import {NavController,LoadingController,ToastController} from 'ionic-angular'
-import {BookPage} from '../book/book';
-import {DetailPage} from '../detail/detail';
-import {Book} from '../../providers/book';
+import {
+  Component
+} from '@angular/core';
+import {
+  NavController,
+  LoadingController,
+  ToastController,
+  ModalController,
+  AlertController
+} from 'ionic-angular'
+import {
+  BookPage
+} from '../book/book';
+import {
+  DetailPage
+} from '../detail/detail';
+import {
+  Book
+} from '../../providers/book';
+import {
+  DialogPage
+} from '../dialog/dialog'
 
 
 @Component({
@@ -17,34 +34,36 @@ export class HomePage {
   };
 
   Personal: Object;
-  loadingObj:any;
+  loadingObj: any;
 
   constructor(
-    public navCtrl: NavController, 
-    private book: Book, 
-    private loadingCtrl: LoadingController, 
-    private toastCtrl: ToastController) {
-    this.loading();
+    public navCtrl: NavController,
+    private book: Book,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private model: ModalController,
+    private alertCtrl:AlertController) {
+    //this.loading();
     this.book.CallBookTwoHttp().subscribe((data) => {
       this.Personal = data;
-      this.loadingObj.dismiss();
-      this.toastloading();
+      //this.loadingObj.dismiss();
+      //this.toastloading();
     });
   }
 
-  loading(){
+  loading() {
     this.loadingObj = this.loadingCtrl.create({
       content: 'loading...',
     });
     this.loadingObj.present();
-    
+
   }
 
-  toastloading(){
+  toastloading() {
     let loading = this.toastCtrl.create({
       message: 'Load Success',
       duration: 6000,
-      position:'top'
+      position: 'top'
     });
     loading.present();
   }
@@ -53,12 +72,12 @@ export class HomePage {
     let data = {
       id: p.id,
       name: p.name,
-      detail:p.detail,
-      created:p.created,
-      photo:p.photo
+      detail: p.detail,
+      created: p.created,
+      photo: p.photo
     }
     this.navCtrl.push(DetailPage, data);
-  
+
   }
 
   gotoBook() {
@@ -74,5 +93,34 @@ export class HomePage {
     this.book.CallBookHttp().subscribe((data) => {
       this.Personal = data;
     });
+  }
+
+  createModel(){
+    let params ={
+      id:'123465',
+      title: 'Dialog Params'
+    }
+    let myModel = this.model.create(DialogPage,params);
+    myModel.present();
+  }
+  openAlert(){
+    let alert = this.alertCtrl.create({
+      title:'Alert Loading Book',
+      subTitle: 'alert book load success',
+      buttons:[{
+        text:'Cancel',
+        role:'cancel',
+        handler :() =>{
+
+        }
+      },
+      {
+        text:'Confirm',
+        handler :() =>{
+
+        }
+      }]
+    });
+    alert.present();
   }
 }
