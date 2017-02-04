@@ -35,7 +35,11 @@ export class HomePage {
 
   Personal: Object;
   loadingObj: any;
+<<<<<<< HEAD
   txt_search: any;
+=======
+  Books: any;
+>>>>>>> b453eabbac7bf38f6cb0573847c9426718e2d643
 
   constructor(
     public navCtrl: NavController,
@@ -46,8 +50,13 @@ export class HomePage {
     private alertCtrl:AlertController) {
     //this.loading();
     this.book.CallBookTwoHttp().subscribe((data) => {
+<<<<<<< HEAD
       this.Personal = data;
       
+=======
+      //this.Personal = data;
+      this.Books =data;
+>>>>>>> b453eabbac7bf38f6cb0573847c9426718e2d643
       //this.loadingObj.dismiss();
       //this.toastloading();
     });
@@ -124,5 +133,40 @@ export class HomePage {
       }]
     });
     alert.present();
+  }
+  createModelDeteil(index){
+    let params ={
+      id:this.Books[index].id,
+      name: this.Books[index].name,
+      detail:this.Books[index].detail,
+      created:this.Books[index].created,
+      photo:this.Books[index].photo
+    }
+    let myModel = this.model.create(DetailPage,params);
+    myModel.present();
+  }
+
+  confirmRemoveItemAlert(index,item){
+    let alert = this.alertCtrl.create({
+      title:'Alert Delete Item',
+      subTitle: 'Are you sure you want to delete this item?',
+      buttons:[{
+        text:'Cancel',
+        role:'cancel',
+        handler :() =>{
+
+        }
+      },
+      {
+        text:'Confirm',
+        handler :() =>{
+          this.removeItem(index,item)
+        }
+      }]
+    });
+    alert.present();
+  }
+  removeItem(index,item){
+    this.Books.splice(index,1);
   }
 }

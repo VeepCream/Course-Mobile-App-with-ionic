@@ -7,9 +7,14 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <button ion-button menuToggle>
+    <!--<button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
-    </button>
+    </button>-->
+    <ion-buttons end>
+      <button ion-button (click)="closeModal()">
+      <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>Detail</ion-title>
   </ion-navbar>
 
