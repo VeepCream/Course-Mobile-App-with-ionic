@@ -16,8 +16,9 @@
   <!--Title: {{ title }}
 <br>
 Name: {{ name }}-->
+<ion-searchbar [(ngModel)]="txt_search" placeholder="search Book"></ion-searchbar>
   <ion-list>
-    <ion-item-sliding *ngFor="let book of Books; let i =index;">
+    <ion-item-sliding *ngFor="let book of Books | searchbook:txt_search ; let i =index;">
       <ion-item>
         <ion-avatar item-left>
           <img [src]="book.photo">

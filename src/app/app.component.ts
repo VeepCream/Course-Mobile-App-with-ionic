@@ -4,6 +4,7 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { HomePage } from '../pages/home/home';
 import { BookPage } from '../pages/book/book';
+import { LocalStoragePage } from '../pages/local-storage/local-storage';
 import { DetailPage } from '../pages/detail/detail';
 
 
@@ -11,7 +12,7 @@ import { DetailPage } from '../pages/detail/detail';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = HomePage;
+  rootPage = LocalStoragePage;
   page: Array<{ title:string, component: any}>;
   @ViewChild(Nav) nav: Nav;
   constructor(platform: Platform, private menu:MenuController){
@@ -26,6 +27,7 @@ export class MyApp {
       {title:'Home' , component: HomePage},
       {title:'Book' , component: BookPage},
       {title:'Detail' , component: DetailPage},
+      {title:'LocalStorage' , component: LocalStoragePage},
     ];
 
   }
