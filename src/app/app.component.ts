@@ -5,6 +5,8 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 import { HomePage } from '../pages/home/home';
 import { BookPage } from '../pages/book/book';
 import { LocalStoragePage } from '../pages/local-storage/local-storage';
+import { HWstroragePage } from '../pages/h-wstrorage/h-wstrorage';
+import { HWfirebasePage } from '../pages/h-wfirebase/h-wfirebase';
 import { DetailPage } from '../pages/detail/detail';
 
 
@@ -12,7 +14,7 @@ import { DetailPage } from '../pages/detail/detail';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = LocalStoragePage;
+  rootPage = HWfirebasePage;
   page: Array<{ title:string, component: any}>;
   @ViewChild(Nav) nav: Nav;
   constructor(platform: Platform, private menu:MenuController){
@@ -28,6 +30,9 @@ export class MyApp {
       {title:'Book' , component: BookPage},
       {title:'Detail' , component: DetailPage},
       {title:'LocalStorage' , component: LocalStoragePage},
+      {title:'HWstrorage' , component: HWstroragePage},
+      {title:'HWfirebase' , component: HWfirebasePage},
+
     ];
 
   }

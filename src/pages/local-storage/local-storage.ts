@@ -62,4 +62,6 @@ export class LocalStoragePage {
     this.Book = {name: '',desc:'',price:''};
   }
 
+  
+
 }
