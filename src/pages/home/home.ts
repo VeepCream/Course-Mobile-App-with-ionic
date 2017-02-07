@@ -35,11 +35,8 @@ export class HomePage {
 
   Personal: Object;
   loadingObj: any;
-<<<<<<< HEAD
   txt_search: any;
-=======
   Books: any;
->>>>>>> b453eabbac7bf38f6cb0573847c9426718e2d643
 
   constructor(
     public navCtrl: NavController,
@@ -50,13 +47,10 @@ export class HomePage {
     private alertCtrl:AlertController) {
     //this.loading();
     this.book.CallBookTwoHttp().subscribe((data) => {
-<<<<<<< HEAD
       this.Personal = data;
-      
-=======
+
       //this.Personal = data;
       this.Books =data;
->>>>>>> b453eabbac7bf38f6cb0573847c9426718e2d643
       //this.loadingObj.dismiss();
       //this.toastloading();
     });

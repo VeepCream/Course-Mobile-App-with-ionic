@@ -7,11 +7,15 @@ import { BookPage } from '../pages/book/book';
 import { LocalStoragePage } from '../pages/local-storage/local-storage';
 import { DetailPage } from '../pages/detail/detail';
 import { DialogPage } from '../pages/dialog/dialog';
+import {  LoginPage } from '../pages/login/login';
 import {DatePipe } from '../pipes/DatePipe'
 import {Book} from '../components/book/book'
 import { Searchbook} from '../pipes/searchbook'
 import {AngularFireModule } from 'angularfire2'
 import * as firebase from 'firebase';
+import {
+  Firebase as FirebaseProvider
+} from '../providers/firebase'
 
 export const firebaseConfig ={
   apiKey: "AIzaSyByer6YK9C_A28lMVbb7sjwv6bV5-q49_0",
@@ -31,7 +35,8 @@ export const firebaseConfig ={
     Book,
     DialogPage,
     Searchbook,
-    LocalStoragePage
+    LocalStoragePage,
+    LoginPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -44,10 +49,12 @@ export const firebaseConfig ={
     BookPage,
     DetailPage,
     DialogPage,
-    LocalStoragePage
+    LocalStoragePage,
+    LoginPage
   ],
   providers: [
     Storage,
+    FirebaseProvider,
     {
     provide: ErrorHandler, 
     useClass: IonicErrorHandler,
