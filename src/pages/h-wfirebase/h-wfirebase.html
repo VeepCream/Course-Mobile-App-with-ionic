@@ -36,7 +36,7 @@
       <button ion-button color="primary" (click)="searchbook()">search</button>
     </div>
     <ion-list>
-      <ion-item-sliding *ngFor="let book of Books_search| async ; let i =index;">
+      <ion-item-sliding *ngFor="let book of listbook; let i =index;">
         <ion-item>
           {{ book.name }}
         </ion-item>
@@ -45,7 +45,7 @@
           <ion-icon name="eye" (click)="alertEditItem(book)"> Edit </ion-icon>
         </button>
           <button ion-button>
-          <ion-icon name="trash" (click)="removeItem(book)"> Del </ion-icon>
+          <ion-icon name="trash" (click)="removeItem(book.id)"> Del </ion-icon>
         </button>
         </ion-item-options>
       </ion-item-sliding>

@@ -37,22 +37,32 @@ export class HWfirebasePage {
   Books_search: FirebaseListObservable < any > ;
   txt_search: any;
   _currentUser: any;
+  listbook: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
     public af: AngularFire,
+
   ) {
-    
+
     this.Books = af.database.list('/books');
     this.Books_search = af.database.list('/books');
     this.txt_search = "";
-    console.log(this.Books);
+    
+    
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HWfirebasePage');
+    this.listbook = [];
+    this.Books_search = this.af.database.list('/books');
+    this.onArrayValue(this.Books_search.$ref).subscribe((profile) => {
+      this.listbook.push(profile);
+      console.log(profile);
+
+    })
   }
 
   onAdd() {
@@ -64,6 +74,12 @@ export class HWfirebasePage {
     };
 
     this.Books.push(dataBook);
+    this.listbook = [];
+
+    this.onArrayValue(this.Books_search.$ref).subscribe((profile) => {
+      this.listbook.push(profile);
+
+    }).unsubscribe();
     console.log('add Book');
     this.Book = {
       name: '',
@@ -74,10 +90,22 @@ export class HWfirebasePage {
 
   onDelete() {
     this.af.database.list('/books').remove();
+    this.listbook = [];
+
+    this.onArrayValue(this.Books_search.$ref).subscribe((profile) => {
+				this.listbook.push(profile);
+
+			}).unsubscribe();
   }
 
   removeItem(item) {
     this.af.database.list('/books').remove(item);
+    this.listbook = [];
+
+    this.onArrayValue(this.Books_search.$ref).subscribe((profile) => {
+				this.listbook.push(profile);
+
+			}).unsubscribe();
   }
 
   alertEditItem(item) {
@@ -115,7 +143,13 @@ export class HWfirebasePage {
               desc: data.desc,
               PRICE: data.price
             };
-            this.Books.update(item, setBook);
+            this.Books.update(item.id, setBook);
+            this.listbook = [];
+
+            this.onArrayValue(this.Books_search.$ref).subscribe((profile) => {
+              this.listbook.push(profile);
+
+            }).unsubscribe();
             console.log('Saved clicked');
           }
         }
@@ -131,10 +165,14 @@ export class HWfirebasePage {
     //     endAt: (this.txt_search + "-").toUpperCase()
     //   }
     // });
-    let Books_search = this.af.database.list('/books').filter( (x, idx) => {
-    return x[idx].name.toUpperCase().includes(this.txt_search.toUpperCase());
-  });
-    
+    let Books_search = this.af.database.list('/books');
+    this.listbook = [];
+    this.onArrayValue(Books_search.$ref).subscribe((profile) => {
+      console.log("click");
+      this.listbook.push(profile);
+      
+    }).unsubscribe();
+    this.alertsearchbook(this.listbook.length);
     console.log(Books_search);
     //this.Books_search.map(list=>list.length).subscribe(length=>this.alertsearchbook(length))
 
@@ -153,10 +191,33 @@ export class HWfirebasePage {
       }]
     });
 
-    if (num > 0) {
+    if (num > 0 && this.txt_search !== undefined && this.txt_search !== "") {
       prompt.present();
     }
 
+  }
+
+  onArrayValue(ref) {
+    return Observable.create((o) => {
+      const fn = ref.on('value', (snapshots) => {
+        const result = []
+        snapshots.forEach((snapshot) => {
+          const x = snapshot.val()
+          x.id = snapshot.key
+          result.push(x)
+          o.next(x);
+        })
+
+      })
+      return () => {
+        ref.off('value', fn)
+      }
+    }).filter((x, index) => {
+      console.log(index);
+      console.log(x);
+      if (this.txt_search == undefined || this.txt_search == "") return true;
+      return x.name.toString().toUpperCase().includes(this.txt_search.toUpperCase());
+    });
   }
 
 
