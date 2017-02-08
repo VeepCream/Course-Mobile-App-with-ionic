@@ -35,6 +35,9 @@ import {
   HWfirebasePage
 } from '../pages/h-wfirebase/h-wfirebase';
 import {
+  HWloginPage
+} from '../pages/h-wlogin/h-wlogin';
+import {
   DatePipe
 } from '../pipes/DatePipe'
 import {
@@ -69,7 +72,8 @@ export const firebaseConfig = {
     Searchbook,
     LocalStoragePage,
     HWstroragePage,
-    HWfirebasePage
+    HWfirebasePage,
+    HWloginPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -84,7 +88,8 @@ export const firebaseConfig = {
     DialogPage,
     LocalStoragePage,
     HWstroragePage,
-    HWfirebasePage
+    HWfirebasePage,
+    HWloginPage
   ],
   providers: [
     Storage,
