@@ -35,9 +35,12 @@ export class HWfirebasePage {
   };
   Books: FirebaseListObservable < any > ;
   Books_search: FirebaseListObservable < any > ;
+  items: FirebaseListObservable < any > ;
   txt_search: any;
+  go_search: any;
   _currentUser: any;
   listbook: any;
+  listbookfilter: any;
 
   constructor(
     public navCtrl: NavController,
@@ -51,18 +54,19 @@ export class HWfirebasePage {
     this.Books_search = af.database.list('/books');
     this.txt_search = "";
     
-    
+
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HWfirebasePage');
-    this.listbook = [];
+    this.go_search = ""
     this.Books_search = this.af.database.list('/books');
-    this.onArrayValue(this.Books_search.$ref).subscribe((profile) => {
-      this.listbook.push(profile);
-      console.log(profile);
-
-    })
+    this.listbook =[];
+    this.listbookfilter = [];
+    this.go_search = "";
+    this.onArrayValue();
+    console.log("result");
   }
 
   onAdd() {
@@ -73,13 +77,9 @@ export class HWfirebasePage {
       PRICE: this.Book.price
     };
 
-    this.Books.push(dataBook);
-    this.listbook = [];
-
-    this.onArrayValue(this.Books_search.$ref).subscribe((profile) => {
-      this.listbook.push(profile);
-
-    }).unsubscribe();
+    this.go_search = this.txt_search;
+    //this.onArrayValue();
+    this.af.database.list('/books').push(dataBook);
     console.log('add Book');
     this.Book = {
       name: '',
@@ -89,23 +89,15 @@ export class HWfirebasePage {
   }
 
   onDelete() {
+    this.go_search = this.txt_search;
     this.af.database.list('/books').remove();
-    this.listbook = [];
-
-    this.onArrayValue(this.Books_search.$ref).subscribe((profile) => {
-				this.listbook.push(profile);
-
-			}).unsubscribe();
+    //this.onArrayValue();
   }
 
   removeItem(item) {
+    this.go_search = this.txt_search;
     this.af.database.list('/books').remove(item);
-    this.listbook = [];
-
-    this.onArrayValue(this.Books_search.$ref).subscribe((profile) => {
-				this.listbook.push(profile);
-
-			}).unsubscribe();
+    //this.onArrayValue();
   }
 
   alertEditItem(item) {
@@ -144,12 +136,12 @@ export class HWfirebasePage {
               PRICE: data.price
             };
             this.Books.update(item.id, setBook);
-            this.listbook = [];
+            this.go_search = "";
+            //this.onArrayValue();
+            // this.onArrayValue(this.Books_search.$ref).subscribe((profile) => {
+            //   this.listbook.push(profile);
 
-            this.onArrayValue(this.Books_search.$ref).subscribe((profile) => {
-              this.listbook.push(profile);
-
-            }).unsubscribe();
+            // }).unsubscribe();
             console.log('Saved clicked');
           }
         }
@@ -165,15 +157,14 @@ export class HWfirebasePage {
     //     endAt: (this.txt_search + "-").toUpperCase()
     //   }
     // });
-    let Books_search = this.af.database.list('/books');
-    this.listbook = [];
-    this.onArrayValue(Books_search.$ref).subscribe((profile) => {
-      console.log("click");
-      this.listbook.push(profile);
-      
-    }).unsubscribe();
-    this.alertsearchbook(this.listbook.length);
-    console.log(Books_search);
+    
+    let go_search = this.txt_search;
+    console.log(this.listbookfilter);
+    this.listbook = _.filter(this.listbookfilter, function(o) { 
+            if (go_search == undefined || go_search == "") return true;
+            return o.name.toString().toUpperCase().includes(go_search.toUpperCase()); 
+          });
+
     //this.Books_search.map(list=>list.length).subscribe(length=>this.alertsearchbook(length))
 
   }
@@ -197,27 +188,31 @@ export class HWfirebasePage {
 
   }
 
-  onArrayValue(ref) {
-    return Observable.create((o) => {
-      const fn = ref.on('value', (snapshots) => {
-        const result = []
-        snapshots.forEach((snapshot) => {
-          const x = snapshot.val()
-          x.id = snapshot.key
-          result.push(x)
-          o.next(x);
-        })
-
+  onArrayValue() {
+    
+    this.items = this.af.database.list('/books', {
+      preserveSnapshot: true
+    })
+    this.items.subscribe(snapshots => {
+      const result = []
+        snapshots.forEach(snapshot => {
+            const x = snapshot.val()
+            x.id = snapshot.key
+            result.push(x)
+        });
+        this.listbookfilter = result;
+        this.listbook = result;
+        this.txt_search  = "";
+        console.log("================test===================")
+        console.log(this.listbook);
+          //this.alertsearchbook(this.listbook.length);
       })
-      return () => {
-        ref.off('value', fn)
-      }
-    }).filter((x, index) => {
-      console.log(index);
-      console.log(x);
-      if (this.txt_search == undefined || this.txt_search == "") return true;
-      return x.name.toString().toUpperCase().includes(this.txt_search.toUpperCase());
-    });
+    // .filter((x, index) => {
+    //   console.log(index);
+    //   console.log(x);
+    //   if (this.go_search == undefined || this.go_search == "") return true;
+    //   return x.name.toString().toUpperCase().includes(this.txt_search.toUpperCase());
+    // });
   }
 
 

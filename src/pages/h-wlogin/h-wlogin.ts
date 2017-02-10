@@ -98,7 +98,7 @@ export class HWloginPage {
               name: data.name,
               pass: data.pass
             };
-            this.userFB.push(setuser);
+            this.af.database.list('/user').push(setuser);
             console.log('Saved clicked');
           }
         }
