@@ -49,25 +49,30 @@ export class HWloginPage {
     console.log('ionViewDidLoad HWloginPage');
     this.userFB = this.af.database.list('/user', {
       query: {
-        orderByChild: "user",
+        orderByChild: "name",
         equalTo: this.user.name
       }
     });
     this.userFB.subscribe(snapshots => {
       const result = [];
       snapshots.forEach(snapshot => {
-        const x = snapshot.val()
-        x.id = snapshot.key
-        result.push(x)
+        console.log(snapshot);
+        const x = snapshot.valueOf();
+        console.log(x);
+        x.id = snapshot.$key;
+        result.push(x);
       });
-      if (result[0].user == this.user.name && result[0].pass == this.user.pass) {
-        let user ={
+      
+      if (result.length > 0 && result[0].name == this.user.name && result[0].pass == this.user.pass) {
+        let user = {
           name: this.user.name,
           pass: this.user.pass
         }
-        this.storage.set('user',user);
+        console.log(result[0]);
+        this.storage.set('user', user);
         this.navCtrl.push(HWstroragePage);
       }
+
     });
   }
 
@@ -81,6 +86,7 @@ export class HWloginPage {
         },
         {
           name: 'pass',
+          type: "password",
           placeholder: 'Password'
         }
       ],

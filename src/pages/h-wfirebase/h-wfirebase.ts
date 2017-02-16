@@ -86,18 +86,21 @@ export class HWfirebasePage {
       desc: '',
       price: ''
     };
+    this.alertPush("ทำการเพิ่มสำเร็จ");
   }
 
   onDelete() {
     this.go_search = this.txt_search;
     this.af.database.list('/books').remove();
     //this.onArrayValue();
+    this.alertPush("ทำการลบสำเร็จ");
   }
 
   removeItem(item) {
     this.go_search = this.txt_search;
     this.af.database.list('/books').remove(item);
     //this.onArrayValue();
+    this.alertPush("ทำการลบสำเร็จ");
   }
 
   alertEditItem(item) {
@@ -143,6 +146,7 @@ export class HWfirebasePage {
 
             // }).unsubscribe();
             console.log('Saved clicked');
+            this.alertPush("ทำการแก้ไขสำเร็จ");
           }
         }
       ]
@@ -164,7 +168,38 @@ export class HWfirebasePage {
             if (go_search == undefined || go_search == "") return true;
             return o.name.toString().toUpperCase().includes(go_search.toUpperCase()); 
           });
+    let prompt = this.alertCtrl.create({
+      title: 'ค้นหาหนังสือ',
+      message: "ค้นพบหนังสือ " + this.listbook.length + " รายการ",
+      buttons: [
+        {
+          text: 'ตกลง',
+          handler: data => {
+            
+          }
+        }
+      ]
+    });
 
+    let prompt1 = this.alertCtrl.create({
+      title: 'ค้นหาหนังสือ',
+      message: "ค้นพบหนังสือ ไม่พบ รายการ",
+      buttons: [
+        {
+          text: 'ตกลง',
+          handler: data => {
+            
+          }
+        }
+      ]
+    });
+
+    if(this.listbook.length > 0){
+      prompt.present();
+    }
+    else{
+      prompt1.present();
+    }
     //this.Books_search.map(list=>list.length).subscribe(length=>this.alertsearchbook(length))
 
   }
@@ -205,14 +240,23 @@ export class HWfirebasePage {
         this.txt_search  = "";
         console.log("================test===================")
         console.log(this.listbook);
-          //this.alertsearchbook(this.listbook.length);
       })
-    // .filter((x, index) => {
-    //   console.log(index);
-    //   console.log(x);
-    //   if (this.go_search == undefined || this.go_search == "") return true;
-    //   return x.name.toString().toUpperCase().includes(this.txt_search.toUpperCase());
-    // });
+  }
+
+  alertPush(keyword) {
+    let prompt1 = this.alertCtrl.create({
+      title: 'แจ้งเตือน',
+      message: keyword,
+      buttons: [
+        {
+          text: 'ตกลง',
+          handler: data => {
+            
+          }
+        }
+      ]
+    });
+    prompt1.present();
   }
 
 

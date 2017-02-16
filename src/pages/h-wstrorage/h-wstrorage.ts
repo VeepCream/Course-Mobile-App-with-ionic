@@ -72,7 +72,7 @@ export class HWstroragePage {
           desc: '',
           price: ''
         };
-        console.log('TEST1')
+        this.alertPush("ทำการเพิ่มสำเร็จ");
       })
       .catch((error) => {
         this.storage.set('Book', [dataBook]);
@@ -84,18 +84,19 @@ export class HWstroragePage {
           desc: '',
           price: ''
         };
-        console.log('TEST2')
+        this.alertPush("ทำการเพิ่มสำเร็จ");
       });
   }
 
   onDelete(key){
     this.storage.remove(key).then((data)=>{
       console.log('remove' + key + 'Success')
+      this.alertPush("ทำการลบสำเร็จ");
     });
     this.Books=[];
     this.Books_search=[];
     this.txt_search ="";
-    console.log('TEST')
+    
   }
 
   removeItem(index,item){
@@ -103,6 +104,7 @@ export class HWstroragePage {
     this.Books_search=this.Books;
     this.txt_search ="";
     this.storage.set('Book', this.Books);
+    this.alertPush("ทำการลบสำเร็จ");
   }
 
   alertEditItem(index){
@@ -139,9 +141,10 @@ export class HWstroragePage {
           handler: data => {
             this.Books[index].name = data.name
             this.Books[index].desc = data.desc
-            this.Books[index].PRICE = data.PRICE
+            this.Books[index].PRICE = data.price
             this.storage.set('Book', this.Books);
             console.log('Saved clicked');
+            this.alertPush("ทำการแก้สำเร็จ");
           }
         }
       ]
@@ -163,9 +166,25 @@ export class HWstroragePage {
         }
       ]
     });
+
+    let prompt1 = this.alertCtrl.create({
+      title: 'ค้นหาหนังสือ',
+      message: "ค้นพบหนังสือ ไม่พบ รายการ",
+      buttons: [
+        {
+          text: 'ตกลง',
+          handler: data => {
+            
+          }
+        }
+      ]
+    });
     
     if(this.Books_search.length > 0){
       prompt.present();
+    }
+    else{
+      prompt1.present();
     }
 
   }
@@ -175,6 +194,22 @@ export class HWstroragePage {
     return this.Books.filter((book) => {
      return book.name.toLowerCase().includes(keyword.toLowerCase());
     });
+  }
+
+  alertPush(keyword) {
+    let prompt1 = this.alertCtrl.create({
+      title: 'แจ้งเตือน',
+      message: keyword,
+      buttons: [
+        {
+          text: 'ตกลง',
+          handler: data => {
+            
+          }
+        }
+      ]
+    });
+    prompt1.present();
   }
 
 }
